@@ -1,0 +1,14 @@
+sft_path: ./workspace/llama3.2-3b/sft/pytorch_model.bin
+vr_path: ./workspace/llama3.2-3b/cdq-rm/pytorch_model.bin
+vc_path: ./workspace/llama3.2-3b/cdq-cm/pytorch_model.bin
+tokenizer: meta-llama/Llama-3.2-3B-Instruct
+dataset_path: PKU-Alignment/PKU-SafeRLHF
+dataset_split: test
+out_dir: ./workspace/llama3.2-3b/CDQ-tau-4/generations
+mode: stochastic            # greedy | stochastic
+w: 2.0
+topk: 10
+max_new_tokens: 512
+n_prompts: null             # null = full dataset
+seed: 42
+cache_dir: ./workspace/cache

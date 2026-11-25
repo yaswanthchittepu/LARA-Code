@@ -1,0 +1,19 @@
+torch >= 1.13
+transformers >= 4.37
+datasets
+tokenizers >= 0.13.3
+accelerate
+deepspeed
+numpy
+scipy
+sentencepiece
+wandb
+tensorboard
+optree
+matplotlib
+tqdm
+rich
+pyyaml
+openai      # only for scripts/rate_gpt.py (GPT-based rating)
+# vllm is needed only for scripts/generate_dual_calibration.py; install it in a
+# separate environment (it pins its own torch version).

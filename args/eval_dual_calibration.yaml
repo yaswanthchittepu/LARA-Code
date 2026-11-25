@@ -1,0 +1,20 @@
+# rm_path: ./workspace/llama3.2-3b/rm/pytorch_model.bin
+# cm_path: ./workspace/llama3.2-3b/cm/pytorch_model.bin
+
+# tokenizer: meta-llama/Llama-3.2-3B-Instruct
+# tokenizer: Qwen/Qwen2.5-3B-Instruct
+
+rm_path: PKU-Alignment/beaver-7b-unified-reward
+cm_path: PKU-Alignment/beaver-7b-unified-cost
+
+rm_tokenizer: PKU-Alignment/beaver-7b-unified-reward
+cm_tokenizer: PKU-Alignment/beaver-7b-unified-cost
+
+
+gen_dir: ./workspace/llama3.1-8b/lmbda/generations
+out_dir: ./workspace/llama3.1-8b/lmbda/evaluations-gold
+# gen_dir: ./workspace/llama3.2-3b/small-data-4x-50/safe-dpo/generations
+# out_dir: ./workspace/llama3.2-3b/small-data-4x-50/safe-dpo/evaluations-gold
+batch_size: 16
+max_length: 1024
+cache_dir: ./workspace/cache

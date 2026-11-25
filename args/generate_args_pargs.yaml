@@ -1,0 +1,17 @@
+sft_path: ./workspace/llama3.2-3b/sft/pytorch_model.bin
+rm_path: ./workspace/llama3.2-3b/rm/pytorch_model.bin
+cm_path: ./workspace/llama3.2-3b/cm/pytorch_model.bin
+tokenizer: meta-llama/Llama-3.2-3B-Instruct
+score_tokenizer: null   # defaults to tokenizer if null
+# dataset_path: safe-inf-prompts-small-256.json
+dataset_path: PKU-Alignment/PKU-SafeRLHF
+dataset_split: test
+out_dir: ./workspace/llama3.2-3b/small-data-4x-50/ARGS-tau-4/generations
+mode: stochastic            # greedy | stochastic
+w: 2.0
+topk: 20
+max_new_tokens: 512
+max_score_length: 1024
+n_prompts: 1024         # null = full dataset
+seed: 42
+cache_dir: ./workspace/cache

@@ -1,0 +1,15 @@
+eval_dir: ./workspace/llama3.1-8b/lmbda/evaluations-gold
+out_dir:  ./workspace/llama3.1-8b/lmbda/calibration_sweep
+
+# Tau values to sweep. lambda* for each tau is the 97.5th bootstrap percentile.
+# This is for llama3.2-3b
+# tau_list: [-2.0, -3.0, -3.5, -3.75, -4.0, -4.25, -4.5, -5.0]
+
+# This is for llama3.1-8b
+tau_list: [0.0, -0.25, -0.5, -0.75, -1.0, -1.25, -1.5, -2.0]
+
+beta:        0.1
+lam_max:     1000.0
+tol:         1.0e-6
+n_bootstrap: 10000
+seed:        0

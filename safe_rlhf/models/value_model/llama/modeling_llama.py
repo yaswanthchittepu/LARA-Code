@@ -1,0 +1,65 @@
+from __future__ import annotations
+
+from typing import Any
+
+import torch
+import torch.nn as nn
+from transformers import LlamaModel, LlamaPreTrainedModel, PretrainedConfig, PreTrainedModel
+
+from safe_rlhf.models.value_model import ValueModelMixin, ValueModelOutput
+
+
+class LlamaForValue(ValueModelMixin, LlamaPreTrainedModel):
+    def __init__(self, config: PretrainedConfig, **kwargs: Any) -> None:
+        super().__init__(config)
+        self.model = LlamaModel(config)
+
+        config.architectures = [self.__class__.__name__]
+        self.init_value_head(config, hidden_size=config.hidden_size, **kwargs)
+
+        self.post_init()
+
+    def get_input_embeddings(self) -> nn.Embedding:
+        return self.model.embed_tokens
+
+    def set_input_embeddings(self, value: nn.Embedding) -> None:
+        self.model.embed_tokens = value
+
+    def get_output_embeddings(self) -> None:
+        return None
+
+    def set_decoder(self, decoder: PreTrainedModel) -> None:
+        self.model = decoder
+
+    def get_decoder(self) -> PreTrainedModel:
+        return self.model
+
+    def forward(
+        self,
+        input_ids: torch.LongTensor | None = None,
+        attention_mask: torch.Tensor | None = None,
+        position_ids: torch.LongTensor | None = None,
+        past_key_values: list[torch.FloatTensor] | None = None,
+        inputs_embeds: torch.FloatTensor | None = None,
+        use_cache: bool | None = None,
+        return_dict: bool | None = None,
+    ) -> tuple[torch.Tensor, torch.Tensor] | ValueModelOutput:
+        return_dict = return_dict if return_dict is not None else self.config.use_return_dict
+
+        outputs = self.model(
+            input_ids,
+            attention_mask=attention_mask,
+            position_ids=position_ids,
+            past_key_values=past_key_values,
+            inputs_embeds=inputs_embeds,
+            use_cache=use_cache,
+            output_attentions=False,
+            output_hidden_states=False,
+            return_dict=True,
+        )
+        last_hidden_state = outputs.last_hidden_state  # (B, L, E)
+        return self.get_values(
+            last_hidden_state,
+            attention_mask=attention_mask,
+            return_dict=return_dict,
+        )

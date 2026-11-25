@@ -1,0 +1,13 @@
+eval_dir: ./workspace/llama3.1-8b/lmbda/evaluations
+out_dir:  ./workspace/llama3.1-8b/lmbda/calibration
+beta: 0.1
+tau: -4.0
+lr: 1e-3
+weight_decay: 0.01
+n_steps: 100000
+batch_size: 64
+lam_max: 1000.0
+tol: 1.0e-6
+bootstrap: false
+n_bootstrap: 200
+seed: 0
