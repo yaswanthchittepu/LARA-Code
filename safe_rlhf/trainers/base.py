@@ -138,6 +138,13 @@ class TrainerBase(metaclass=abc.ABCMeta):
                         [sys.executable, 'zero_to_fp32.py', '.', WEIGHTS_NAME],  # noqa: S603
                         cwd=self.args.output_dir,
                     )
+                    # Recent DeepSpeed writes `pytorch_model.bin/` as a directory holding the
+                    # weights. Put the config and tokenizer next to them so that the
+                    # `<output_dir>/pytorch_model.bin` path is directly loadable.
+                    weights_dir = os.path.join(self.args.output_dir, WEIGHTS_NAME)
+                    if os.path.isdir(weights_dir):
+                        model_to_save.config.to_json_file(os.path.join(weights_dir, CONFIG_NAME))
+                        self.tokenizer.save_pretrained(weights_dir)
                 dist.barrier()
             else:
                 self.logger.print('Saving Hugging Face Checkpoints...')
